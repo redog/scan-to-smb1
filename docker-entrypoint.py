@@ -39,16 +39,17 @@ while True:
   ))
 
   # Ensure the mount point exists and has the correct permissions
-  try:
-    os.makedirs(remoteMount, exist_ok=True)  # Create directory recursively if needed
-        #cmd = ["chown", f"{linuxUserId}:{linuxGroupId}", remoteMount]  
-        #subprocess.check_call(cmd)
-    cmd = ["ls", "-l", "/remote1"]
-    subprocess.check_call(cmd)
-
-  except (subprocess.CalledProcessError, OSError) as e:  # Catch potential OSError from makedirs
-      print(f"Error creating or changing ownership of '{remoteMount}': {e}")
-      exit(1)
+    # This never worked. Created volume instead
+    #try:
+    #os.makedirs(remoteMount, exist_ok=True)  # Create directory recursively if needed
+    #    #cmd = ["chown", f"{linuxUserId}:{linuxGroupId}", remoteMount]  
+    #    #subprocess.check_call(cmd)
+    #cmd = ["ls", "-l", "/remote1"]
+    #subprocess.check_call(cmd)
+    #
+    #except (subprocess.CalledProcessError, OSError) as e:  # Catch potential OSError from makedirs
+    #  print(f"Error creating or changing ownership of '{remoteMount}': {e}")
+    #  exit(1)
 
     #if not os.path.exists(remoteMount):
     #os.mkdir(remoteMount)
@@ -57,7 +58,7 @@ while True:
   try:
     # Construct the mount command with more careful escaping
     cmd = [
-        "mount", "-t", "cifs", "-o", "username='{username}',password='{password}',domain='{domain}'".format(
+        "mount.cifs", "-o", "username='{username}',password='{password}',domain='{domain}'".format(
             username=remoteUsername,
             password=remotePassword,
             domain=remoteDomain
@@ -70,9 +71,6 @@ while True:
             capture_output=True,  # Capture stdout and stderr
             text=True             # Decode output as text
         )
-
-    cmd = ["ls", "-l", "/remote1"]
-    subprocess.check_call(cmd)
 
     if ret.returncode != 0:
             print("Mounting failed!")
