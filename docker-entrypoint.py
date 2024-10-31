@@ -57,7 +57,7 @@ while True:
   try:
     # Construct the mount command with more careful escaping
     cmd = [
-        "mount","-v", "-t", "cifs", "-o", "username='{username}',password='{password}',domain='{domain}'".format(
+        "mount", "-t", "cifs", "-o", "username='{username}',password='{password}',domain='{domain}'".format(
             username=remoteUsername,
             password=remotePassword,
             domain=remoteDomain
