@@ -49,7 +49,7 @@ while True:
   subprocess.call("chown {}:{} {}".format(linuxUserId, linuxGroupId, remoteMount), shell=True)
   try:
     ret = subprocess.run(
-        'mount -v -t cifs -o username={username},password={password},domain={domain} "{share}" "{directory}"'.format(
+        "mount -v -t cifs -o username={username},password={password},domain={domain} {share} {directory}".format(
             domain=remoteDomain,
             username=remoteUsername,
             password=remotePassword,
