@@ -40,21 +40,36 @@ while True:
   if not os.path.exists(remoteMount):
     os.mkdir(remoteMount)
   subprocess.call("chown {}:{} {}".format(linuxUserId, linuxGroupId, remoteMount), shell=True)
-  ret = subprocess.call('mount -t cifs -o username={username},password={password},domain={domain} "{share}" "{directory}"'.format(
-    domain = remoteDomain,
-    username = remoteUsername,
-    password = remotePassword,
-    vers = '3.0',
-    uid = linuxUserId,
-    gid = linuxGroupId,
-    share = remotePath,
-    directory = remoteMount
-  ), shell=True)
-  if ret != 0:
-    os.rmdir(remoteMount)
-    print("Mounting failed!")
-    exit(1)
+  try:
+    ret = subprocess.run(
+        'mount -t cifs -o username={username},password={password},domain={domain} "{share}" "{directory}"'.format(
+            domain=remoteDomain,
+            username=remoteUsername,
+            password=remotePassword,
+            vers='3.0',
+            uid=linuxUserId,
+            gid=linuxGroupId,
+            share=remotePath,
+            directory=remoteMount  
 
+        ),
+        shell=True,
+        capture_output=True,  # Capture stdout and stderr
+        text=True             # Decode output as text
+    )
+
+    if ret.returncode != 0:
+        print("Mounting failed!")
+        print("Error output:", ret.stderr)  # Print the error output from the command
+        os.rmdir(remoteMount)
+        exit(1)
+    else:
+        print("Mounting successful!")
+
+  except Exception as e:
+    print("An unexpected error occurred:", e)
+    os.rmdir(remoteMount)
+    exit(1)
   # Samba Share
   print("Setting up share '{share}' for User '{username}' at '{directory}'".format(
     share = shareName,
