@@ -43,7 +43,7 @@ while True:
     os.makedirs(remoteMount, exist_ok=True)  # Create directory recursively if needed
         #cmd = ["chown", f"{linuxUserId}:{linuxGroupId}", remoteMount]  
         #subprocess.check_call(cmd)
-    cmd = ["ls", "-l", "/"]
+    cmd = ["ls", "-l", "/remote1"]
     subprocess.check_call(cmd)
 
   except (subprocess.CalledProcessError, OSError) as e:  # Catch potential OSError from makedirs
@@ -70,6 +70,9 @@ while True:
             capture_output=True,  # Capture stdout and stderr
             text=True             # Decode output as text
         )
+
+    cmd = ["ls", "-l", "/remote1"]
+    subprocess.check_call(cmd)
 
     if ret.returncode != 0:
             print("Mounting failed!")
