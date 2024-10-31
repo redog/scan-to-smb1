@@ -40,7 +40,7 @@ while True:
   if not os.path.exists(remoteMount):
     os.mkdir(remoteMount)
   subprocess.call("chown {}:{} {}".format(linuxUserId, linuxGroupId, remoteMount), shell=True)
-  ret = subprocess.call('mount -t cifs -o username={username},password={password},domain={domain},vers={vers},uid={uid},gid={gid} "{share}" "{directory}"'.format(
+  ret = subprocess.call('mount -t cifs -o username={username},password={password},domain={domain} "{share}" "{directory}"'.format(
     domain = remoteDomain,
     username = remoteUsername,
     password = remotePassword,
