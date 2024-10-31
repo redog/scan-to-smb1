@@ -41,7 +41,7 @@ while True:
   # Ensure the mount point exists and has the correct permissions
   try:
       os.makedirs(remoteMount, exist_ok=True)  # Create directory recursively if needed
-      cmd = ["chown", str(linuxUserId), str(linuxGroupId), remoteMount]  
+      cmd = ["chown", f"{linuxUserId}:{linuxGroupId}", remoteMount]  
       subprocess.check_call(cmd)
 
   except (subprocess.CalledProcessError, OSError) as e:  # Catch potential OSError from makedirs
