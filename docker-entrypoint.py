@@ -51,7 +51,6 @@ while True:
             gid=linuxGroupId,
             share=remotePath,
             directory=remoteMount  
-
         ),
         shell=True,
         capture_output=True,  # Capture stdout and stderr
