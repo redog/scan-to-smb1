@@ -46,9 +46,6 @@ while True:
             domain=remoteDomain,
             username=remoteUsername,
             password=remotePassword,
-            vers='3.0',
-            uid=linuxUserId,
-            gid=linuxGroupId,
             share=remotePath,
             directory=remoteMount
         ),
