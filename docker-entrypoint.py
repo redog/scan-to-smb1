@@ -54,10 +54,9 @@ while True:
     #subprocess.call("chown {}:{} {}".format(linuxUserId, linuxGroupId, remoteMount), shell=True)
 
   try:
-    print(f"dir list: {os.listdir('/')}")  # Print the contents of the root directory
     # Construct the mount command with more careful escaping
     cmd = [
-        "mount", "-v", "-t", "cifs", "-o", "username='{username}',password='{password}',domain='{domain}'".format(
+        "mount","-d","-v", "-t", "cifs", "-o", "username='{username}',password='{password}',domain='{domain}'".format(
             username=remoteUsername,
             password=remotePassword,
             domain=remoteDomain
