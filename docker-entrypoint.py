@@ -43,8 +43,8 @@ while True:
     os.makedirs(remoteMount, exist_ok=True)  # Create directory recursively if needed
         #cmd = ["chown", f"{linuxUserId}:{linuxGroupId}", remoteMount]  
         #subprocess.check_call(cmd)
-        #cmd = ["ls", "-l", "/"]
-        #subprocess.check_call(cmd)
+    cmd = ["ls", "-l", "/"]
+    subprocess.check_call(cmd)
 
   except (subprocess.CalledProcessError, OSError) as e:  # Catch potential OSError from makedirs
       print(f"Error creating or changing ownership of '{remoteMount}': {e}")
