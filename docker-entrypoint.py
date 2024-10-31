@@ -41,32 +41,35 @@ while True:
     os.mkdir(remoteMount)
   subprocess.call("chown {}:{} {}".format(linuxUserId, linuxGroupId, remoteMount), shell=True)
   try:
-    cmd = ""
-    ret = subprocess.run(
-        "mount -v -t cifs -o username='{username}',password='{password}',domain='{domain}' '{share}' '{directory}'".format(
-            domain=remoteDomain,
+    # Construct the mount command with more careful escaping
+    cmd = [
+        "mount", "-v", "-t", "cifs", "-o", "username='{username}',password='{password}',domain='{domain}'".format(
             username=remoteUsername,
             password=remotePassword,
-            share=remotePath,
-            directory=remoteMount
-        ),
-        shell=True,
-        capture_output=True,  # Capture stdout and stderr
-        text=True             # Decode output as text
-    )
+            domain=remoteDomain
+            ),
+         "'{share}'".format(share=remotePath),  # Escape the share path
+         "'{directory}'".format(directory=remoteMount)  # Escape the directory path
+        ]
+    ret = subprocess.run(
+            cmd,
+            capture_output=True,  # Capture stdout and stderr
+            text=True             # Decode output as text
+        )
 
     if ret.returncode != 0:
-        print("Mounting failed!")
-        print("Error output:", ret.stderr)  # Print the error output from the command
-        os.rmdir(remoteMount)
-        exit(1)
+            print("Mounting failed!")
+            print("Error output:", ret.stderr)  # Print the error output from the command
+            os.rmdir(remoteMount)
+            exit(1)
     else:
-        print("Mounting successful!")
+            print("Mounting successful!")
 
   except Exception as e:
-    print("An unexpected error occurred:", e)
-    os.rmdir(remoteMount)
-    exit(1)
+        print("An unexpected error occurred:", e)
+        os.rmdir(remoteMount)
+        exit(1)
+
   # Samba Share
   print("Setting up share '{share}' for User '{username}' at '{directory}'".format(
     share = shareName,
