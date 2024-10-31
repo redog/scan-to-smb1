@@ -75,14 +75,12 @@ while True:
     if ret.returncode != 0:
             print("Mounting failed!")
             print("Error output:", ret.stderr)  # Print the error output from the command
-            os.rmdir(remoteMount)
             exit(1)
     else:
             print("Mounting successful!")
 
   except Exception as e:
         print("An unexpected error occurred:", e)
-        os.rmdir(remoteMount)
         exit(1)
 
   # Samba Share
