@@ -37,12 +37,19 @@ while True:
     username = remoteUsername,
     directory = remoteMount
   ))
+  print("share:", remotePath)
+  print("domain:", remoteDomain)
+  print("username:", remoteUsername)
+  print("password:", remotePassword)  # Make sure to remove this in production!
+  print("directory:", remoteMount)
+  print("linuxUserId:", linuxUserId)
+  print("linuxGroupId:", linuxGroupId)
   if not os.path.exists(remoteMount):
     os.mkdir(remoteMount)
   subprocess.call("chown {}:{} {}".format(linuxUserId, linuxGroupId, remoteMount), shell=True)
   try:
     ret = subprocess.run(
-        'mount -t cifs -o username={username},password={password},domain={domain} "{share}" "{directory}"'.format(
+        'mount -v -t cifs -o username={username},password={password},domain={domain} "{share}" "{directory}"'.format(
             domain=remoteDomain,
             username=remoteUsername,
             password=remotePassword,
