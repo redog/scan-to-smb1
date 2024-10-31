@@ -50,7 +50,7 @@ while True:
             uid=linuxUserId,
             gid=linuxGroupId,
             share=remotePath,
-            directory=remoteMount  
+            directory=remoteMount
         ),
         shell=True,
         capture_output=True,  # Capture stdout and stderr
