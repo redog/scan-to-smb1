@@ -43,16 +43,18 @@ while True:
       os.makedirs(remoteMount, exist_ok=True)  # Create directory recursively if needed
       cmd = ["chown", f"{linuxUserId}:{linuxGroupId}", remoteMount]  
       subprocess.check_call(cmd)
+      print(f"makedirs output: {os.listdir('/')}")  # Print the contents of the root directory
 
   except (subprocess.CalledProcessError, OSError) as e:  # Catch potential OSError from makedirs
       print(f"Error creating or changing ownership of '{remoteMount}': {e}")
       exit(1)
 
-  if not os.path.exists(remoteMount):
-    os.mkdir(remoteMount)
-  subprocess.call("chown {}:{} {}".format(linuxUserId, linuxGroupId, remoteMount), shell=True)
+    #if not os.path.exists(remoteMount):
+    #os.mkdir(remoteMount)
+    #subprocess.call("chown {}:{} {}".format(linuxUserId, linuxGroupId, remoteMount), shell=True)
 
   try:
+    print(f"dir list: {os.listdir('/')}")  # Print the contents of the root directory
     # Construct the mount command with more careful escaping
     cmd = [
         "mount", "-v", "-t", "cifs", "-o", "username='{username}',password='{password}',domain='{domain}'".format(
